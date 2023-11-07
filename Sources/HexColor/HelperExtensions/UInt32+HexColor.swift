@@ -9,6 +9,14 @@ extension UInt32 {
     /// - Parameter hexColor: The `HexColor` that needs to be converted
     ///             to an `UInt32`
     public init(_ hexColor: HexColor) {
-        self = ((UInt32(hexColor.red) << 16) | (UInt32(hexColor.green) << 8) | UInt32(hexColor.blue))
+        self.init(red: hexColor.red, green: hexColor.green, blue: hexColor.blue)
+    }
+    
+    init(red: UInt8, green: UInt8, blue: UInt8) {
+        self = ((UInt32(red) << 16) | (UInt32(green) << 8) | UInt32(blue))
+    }
+    
+    func clamp(_ range: ClosedRange<Self>) -> Self {
+        range.clamp(self)
     }
 }
