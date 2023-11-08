@@ -11,12 +11,8 @@ extension UInt32 {
     public init(_ hexColor: HexColor) {
         self.init(red: hexColor.red, green: hexColor.green, blue: hexColor.blue)
     }
-    
+        
     init(red: UInt8, green: UInt8, blue: UInt8) {
         self = ((UInt32(red) << 16) | (UInt32(green) << 8) | UInt32(blue))
-    }
-    
-    func clamp(_ range: ClosedRange<Self>) -> Self {
-        range.clamp(self)
     }
 }

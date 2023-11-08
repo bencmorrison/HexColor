@@ -2,8 +2,6 @@
 
 import Foundation
 
-typealias RGBValue = (UInt8, UInt8, UInt8)
-
 enum TestColor: String, CaseIterable {
     case black
     case white
@@ -14,20 +12,6 @@ enum TestColor: String, CaseIterable {
     case cyan
     case magenta
     case gray
-    
-    var rgb: RGBValue {
-        switch self {
-        case .black: return (0,0,0)
-        case .white: return (255,255,255)
-        case .red: return (255,0,0)
-        case .green: return (0,255,0)
-        case .blue: return (0,0,255)
-        case .yellow: return (255,255,0)
-        case .cyan: return (0,255,255)
-        case .magenta: return  (255,0,255)
-        case .gray: return (64,64,64)
-        }
-    }
     
     var hex: String {
         switch self {
@@ -43,7 +27,21 @@ enum TestColor: String, CaseIterable {
         }
     }
     
-    var hexInt: UInt32  {
+    func rgbValues<T: FixedWidthInteger>(as: T.Type) -> (T, T, T) {
+        switch self {
+        case .black: return (0,0,0)
+        case .white: return (255,255,255)
+        case .red: return (255,0,0)
+        case .green: return (0,255,0)
+        case .blue: return (0,0,255)
+        case .yellow: return (255,255,0)
+        case .cyan: return (0,255,255)
+        case .magenta: return  (255,0,255)
+        case .gray: return (64,64,64)
+        }
+    }
+    
+    func hexInt<T: FixedWidthInteger>(as: T.Type) -> T {
         switch self {
         case .black: return 0x000000
         case .white: return 0xFFFFFF

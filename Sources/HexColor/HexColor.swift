@@ -48,7 +48,7 @@ public struct HexColor: Hashable, Sendable {
     
     /// Creates a `HexColor` from a `UInt32` representation of
     /// a Hexadecimal Color.
-    /// - Note: When the value is above 0xFFFFFF, it will be treated as 0xFFFFFF
+    /// - Note: When the value is above 16777215 (0xFFFFFF), it will be treated as 0xFFFFFF
     /// - Parameter hexValue: The `UInt32` representation of the hex color.
     public init(_ hexValue: UInt32) {
         let values = Self.rgbValues(from: hexValue)

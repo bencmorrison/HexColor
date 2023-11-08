@@ -25,7 +25,7 @@ extension HexColor {
     /// - Parameter stringHexColor: The `UInt64` represenation of the hex color
     /// - Returns: A Tupal of the Red, Green, and Blue channel values, in that order.
     public static func rgbValues(from hexValue: UInt32) -> (UInt8, UInt8, UInt8) {
-        let clampedValue = hexValue.clamp(.hex)
+        let clampedValue = hexValue.clamp(.hexValue)
         let red = UInt8((0xFF0000 & clampedValue) >> 16)
         let green = UInt8((0x00FF00 & clampedValue) >> 8)
         let blue = UInt8(0x0000FF & clampedValue)

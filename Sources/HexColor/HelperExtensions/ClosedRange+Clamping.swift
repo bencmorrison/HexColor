@@ -3,11 +3,11 @@
 import Foundation
 
 extension ClosedRange where Bound == UInt32 {
-    static let hex: ClosedRange<Bound> = 0...0xFFFFFF
+    static let hexValue: ClosedRange<Bound> = 0...0xFFFFFF
+    static let hexColorChannel: ClosedRange<Bound> = 0...0xFF
 }
 
-extension ClosedRange {
-    func clamp(_ value: Bound) -> Bound {
-        Swift.min(Swift.max(value, lowerBound), upperBound)
-    }
+extension ClosedRange where Bound == Int {
+    static let hexValue: ClosedRange<Bound> = 0...0xFFFFFF
+    static let colorChannel: ClosedRange<Bound> = 0...0xFF
 }
