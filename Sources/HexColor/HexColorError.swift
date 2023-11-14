@@ -8,7 +8,7 @@ public enum HexColorError: Error {
     public var message: String {
         switch self {
         case .stringDoesNotMeetExpectedFormat:
-            return "Expected Format: #RRGGBB"
+            return "Expected Format: #RRGGBB or #RRGGBBAA"
         }
     }
 }

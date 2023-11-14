@@ -1,6 +1,7 @@
 # `HexColor` for Swift
 
-This small SPM that allows you to easily take a `String` or `UInt32` hex color value and get a `Color`, `UIColor`, or `NSColor` from it.
+This small Swift Package allows you to use Hexadecimal values to create a `Color`,
+`UIColor`, or `NSColor`. Supporting Hex Values with or without alpha.
 
 ## Examples
 
@@ -8,11 +9,23 @@ This small SPM that allows you to easily take a `String` or `UInt32` hex color v
 ```swift
 let hexColor = HexColor(0xFF0000)
 let color = HexColor(hexColor)
-// color is a red color
+// color is a red color with no alpha
 ```
 
 ```swift
 let hexColor = HexColor("0x00FF00")
 let color = HexColor(hexColor)
-// color is a green color
+// color is a green color with no alpha
+```
+
+```swift
+let hexColor = HexColor(0xFF00007F)
+let color = HexColor(hexColor, hasAlpha: true)
+// color is a red color with no ~ 50% alpha.
+```
+
+```swift
+let hexColor = HexColor("0x00FF00FF")
+let color = HexColor(hexColor)
+// color is a green color with 100% alpha
 ```

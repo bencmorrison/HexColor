@@ -5,7 +5,7 @@ import SwiftUI
 extension Color {
     /// Allows the creation of a `Color` form Hexadecimal color.
     /// - Note: Expects `#` to be prepended to the string
-    /// - Throws: an error when the format is not `#RRGGBB`
+    /// - Throws: an error when the format is not `#RRGGBB` or `#RRGGBBAA`
     /// - Parameter hexString: The Hexadecimal Color to use.
     public init(hexString: String) throws {
         let hex = try HexColor(hexString)
@@ -14,10 +14,23 @@ extension Color {
     
     /// Allows the creation of a `Color` from a `UInt32` that represents
     /// a Hexadecimal color.
-    /// - Note: When the value is above 0xFFFFFF it will be treated as 0xFFFFFF
-    /// - Parameter hex: The Hexadecimal Color value to use.
-    public init(hex: UInt32) {
-        let hex = HexColor(hex)
+    /// - Note: Hex is capped at 0xFFFFFF
+    /// - Parameters:
+    ///   - hex: The Hexadecimal Color value to use.
+    ///   - hasAlpha: If your `UInt32` has the alpha channel, set to true.
+    public init(hex: UInt32, hasAlpha: Bool = false) {
+        let hex = HexColor(hex, hasAlpha: hasAlpha)
+        self = hex.color
+    }
+    
+    /// Allows the creation of a `Color` from a `Int` that represents
+    /// a Hexadecimal color.
+    /// - Note: Hex is capped at 0xFFFFFF
+    /// - Parameters:
+    ///   - hex: The Hexadecimal Color value to use.
+    ///   - hasAlpha: If your `Int` has the alpha channel, set to true.
+    public init(hex: Int, hasAlpha: Bool = false) {
+        let hex = HexColor(hex, hasAlpha: hasAlpha)
         self = hex.color
     }
     
@@ -33,18 +46,20 @@ extension Color {
     ///   - red: The value for the red channel
     ///   - green: The value for the green channel
     ///   - blue: The value for the blue channel
-    ///   - opacity: The opacity value.
-    public init(red: UInt8, green: UInt8, blue: UInt8, opacity: CGFloat = 1.0) {
+    ///   - alpha: The opacity value is optional. When nil default will be 0xFF (255).
+    public init(red: UInt8, green: UInt8, blue: UInt8, alpha: UInt8?) {
         self.init(
-            red: CGFloat(red) / 255.0,
-            green: CGFloat(green) / 255.0,
-            blue: CGFloat(blue) / 255.0,
-            opacity: opacity
+            red: red.asDoubleColorChannel(),
+            green: green.asDoubleColorChannel(),
+            blue: blue.asDoubleColorChannel(),
+            opacity: alpha.default(0xFF).asDoubleColorChannel()
         )
     }
 }
 
 extension HexColor {
     /// Returns a new instance of a `Color` that is defined by the `HexColor` struture.
-    public var color: Color { Color(red: red, green: green, blue: blue) }
+    public var color: Color {
+        return Color(red: red, green: green, blue: blue, alpha: alpha)
+    }
 }

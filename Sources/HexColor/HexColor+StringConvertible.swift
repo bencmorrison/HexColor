@@ -4,16 +4,23 @@ import Foundation
 
 extension HexColor: CustomStringConvertible, CustomDebugStringConvertible {
     public var description: String {
-        let string = String(hexValue, radix: .hexadecimal, prefix: .none)
-        return "#\(string.dropFirst(2))"
+        var string = String(hexValue, radix: .hexadecimal, prefix: .none)
+        if alpha == nil { string = String(string.dropFirst(2)) }
+        return "#\(string)"
     }
     
     public var debugDescription: String {
-        return """
-        red: \(String(red, radix: .hexadecimal)),
-        green: \(String(green, radix: .hexadecimal)),
+        var desc = """
+        red: \(String(red, radix: .hexadecimal))
+        green: \(String(green, radix: .hexadecimal))
         blue: \(String(blue, radix: .hexadecimal)))
-        combined: \(String(hexValue, radix: .hexadecimal))
         """
+        
+        if let alpha {
+            desc += "alpha: \(String(alpha, radix: .hexadecimal)))"
+        }
+        
+        desc += "combined: \(String(hexValue, radix: .hexadecimal))"
+        return desc
     }
 }

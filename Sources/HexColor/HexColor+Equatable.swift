@@ -6,6 +6,7 @@ extension HexColor: Equatable {
     public static func == (lhs: HexColor, rhs: HexColor) -> Bool {
         return lhs.red == rhs.red &&
             lhs.green == rhs.green &&
-            lhs.blue == rhs.blue
+            lhs.blue == rhs.blue &&
+            lhs.alpha == rhs.alpha
     }
 }

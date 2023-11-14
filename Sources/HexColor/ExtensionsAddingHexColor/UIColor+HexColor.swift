@@ -4,72 +4,52 @@
 import UIKit
 
 extension UIColor {
-    /// Allows the creation of a `Color` form Hexadecimal color.
-    /// - Note: Expects `#` to be prepended to the string
-    /// - Throws: an error when the format is not `#RRGGBB`
-    /// - Parameters:
-    ///    - hexString: The Hexadecimal Color to use.
-    ///    - alpha: The alpha (opacity), specified as a value from 0-1.0.
-    ///    Alpha values below 0 are interpreted as 0.0,
-    ///    and values above 1.0 are interpreted as 1.0.
-    ///    Default value is 1.0
-    public convenience init(hexString: String, alpha: CGFloat = 1.0) throws {
+    /// Allows the creation of a `UIColor` form Hexadecimal color.
+    /// - Note: This expects `#` to be pre-pended to the value.
+    /// - Throws: an error when the format is not `#RRGGBB` or `#RRGGBBAA`
+    /// - Parameter hexString: The Hexadecimal Color to use.
+    public convenience init(hexString: String) throws {
         let hex = try HexColor(hexString)
-        self.init(
-            red: CGFloat(hex.red) / 255.0,
-            green: CGFloat(hex.green) / 255.0,
-            blue: CGFloat(hex.blue) / 255.0,
-            alpha: alpha
-        )
+        self.init(hex)
     }
     
-    /// Allows the creation of a `Color` from a `UInt32` that represents
-    /// a Hexadecimal color.
-    /// - Throws: an error when the `hex` parameter is not equal to or below `0xFFFFFF`
+    /// Creates a `UIColor` from a `UInt32` representation of
+    /// a Hexadecimal Color.
+    /// - Note: Value is clamped to 0xFFFFFF or 0xFFFFFFFF depending on alpha.
     /// - Parameters:
-    ///    - hex: The Hexadecimal Color value to use.
-    ///    When the value is above 0xFFFFFF it will be treated as 0xFFFFFF
-    ///    - alpha: The alpha (opacity), specified as a value from 0-1.0.
-    ///    Alpha values below 0 are interpreted as 0.0,
-    ///    and values above 1.0 are interpreted as 1.0.
-    ///    Default value is 1.0
-    public convenience init(hex: UInt32, alpha: CGFloat = 1.0) {
+    ///   - hexValue: The `UInt32` representation of the hex color.
+    ///   - hasAlpha: If the value contains alpha, set this to true. Default is false
+    public convenience init(hex: UInt32, hasAlpha: Bool = false) {
         let hex = HexColor(hex)
-        self.init(
-            red: CGFloat(hex.red) / 255.0,
-            green: CGFloat(hex.green) / 255.0,
-            blue: CGFloat(hex.blue) / 255.0,
-            alpha: alpha
-        )
+        self.init(hex)
     }
     
-    /// Allows the creation of a `Color` from the `HexColor` structure.
+    /// Creates a `UIColor` from a `Int` representation of
+    /// a Hexadecimal Color.
+    /// - Note: Value is clamped to 0xFFFFFF or 0xFFFFFFFF depending on alpha.
     /// - Parameters:
-    ///     - hexColor: The `HexColor` that defines your Hexadecimal color
-    ///     - alpha: The alpha (opacity), specified as a value from 0-1.0.
-    ///    Alpha values below 0 are interpreted as 0.0,
-    ///    and values above 1.0 are interpreted as 1.0.
-    ///    Default value is 1.0
-    public convenience init(_ hexColor: HexColor, alpha: CGFloat = 1.0) {
+    ///   - hexValue: The `Int` representation of the hex color.
+    ///   - hasAlpha: If the value contains alpha, set this to true. Default is false
+    public convenience init(hex: Int, hasAlpha: Bool = false) {
+        let hex = HexColor(hex)
+        self.init(hex)
+    }
+    
+    /// Allows the creation of a `UIColor` from the `HexColor` structure.
+    /// - Parameter hexColor: The `HexColor` that defines your Hexadecimal color
+    public convenience init(_ hexColor: HexColor) {
         self.init(
-            red: CGFloat(hexColor.red) / 255.0,
-            green: CGFloat(hexColor.green) / 255.0,
-            blue: CGFloat(hexColor.blue) / 255.0,
-            alpha: alpha
+            red: hexColor.red.asCGFloatColorChannel(),
+            green: hexColor.green.asCGFloatColorChannel(),
+            blue: hexColor.blue.asCGFloatColorChannel(),
+            alpha: hexColor.alpha.default(0xFF).asCGFloatColorChannel()
         )
     }
 }
 
 extension HexColor {
     /// Returns a new instance of a `UIColor` that is defined by the `HexColor` struture.
-    public var uiColor: UIColor {
-        UIColor(
-            red: CGFloat(red) / 255.0,
-            green: CGFloat(green) / 255.0,
-            blue: CGFloat(blue) / 255.0,
-            alpha: 1.0
-        )
-    }
+    public var uiColor: UIColor { UIColor(self) }
 }
 
 #endif
